@@ -1,51 +1,148 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const cors = require("cors");
+const dotenv = require("dotenv");
 const path = require("path");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const Product = require("./models/Product");
+const User = require("./models/User");
+
+dotenv.config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-/* FRONTEND CONNECTION */
 app.use(express.static(path.join(__dirname, "public")));
 
-/* PRODUCTS */
-const products = [
-  {
-    id: 1,
-    name: "Running Shoes",
-    price: 4500,
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000"
-  },
-  {
-    id: 2,
-    name: "Smart Phone",
-    price: 25000,
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1000"
-  },
-  {
-    id: 3,
-    name: "Fashion T-shirt",
-    price: 1200,
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1000"
-  }
-];
-
-/* ROUTES */
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+  console.log("MongoDB Connected");
+})
+.catch(err => console.log(err));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+
+  res.sendFile(
+    path.join(__dirname, "public", "index.html")
+  );
+
 });
 
-app.get("/api/products", (req, res) => {
+/* PRODUCTS */
+
+app.get("/api/products", async (req, res) => {
+
+  const products = await Product.find();
+
   res.json(products);
+
 });
 
-/* SERVER */
+app.post("/api/products", async (req, res) => {
 
-const PORT = 1000;
+  const newProduct = new Product(req.body);
+
+  await newProduct.save();
+
+  res.json(newProduct);
+
+});
+
+/* SIGNUP */
+
+app.post("/api/signup", async (req, res) => {
+
+  const { username, email, password } = req.body;
+
+  const existingUser = await User.findOne({ email });
+
+  if (existingUser) {
+
+    return res.json({
+      message: "User already exists"
+    });
+
+  }
+
+  const salt = await bcrypt.genSalt(10);
+
+  const hashedPassword =
+    await bcrypt.hash(password, salt);
+
+  const newUser = new User({
+
+    username,
+    email,
+    password: hashedPassword
+
+  });
+
+  await newUser.save();
+
+  res.json({
+    message: "Signup successful"
+  });
+
+});
+
+/* LOGIN */
+
+app.post("/api/login", async (req, res) => {
+
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+
+    return res.json({
+      message: "User not found"
+    });
+
+  }
+
+  const validPassword =
+    await bcrypt.compare(password, user.password);
+
+  if (!validPassword) {
+
+    return res.json({
+      message: "Invalid password"
+    });
+
+  }
+
+  const token = jwt.sign(
+
+    { id: user._id },
+
+    process.env.JWT_SECRET,
+
+    { expiresIn: "7d" }
+
+  );
+
+  res.json({
+
+    token,
+
+    user: {
+      username: user.username,
+      email: user.email
+    }
+
+  });
+
+});
+
+const PORT = process.env.PORT || 1000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+
+  console.log(`Server running on port ${PORT}`);
+
 });

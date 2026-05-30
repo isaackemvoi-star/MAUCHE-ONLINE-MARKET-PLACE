@@ -1,169 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Marketplace App</title>
+<meta charset="UTF-8">
 
-  <link rel="stylesheet" href="style.css" />
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
 
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-  />
+<title>Marketplace</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="header">
+<header class="header">
 
-    <div class="logo">
-      MarketPlace
-    </div>
+<div class="logo">
+MarketPlace
+</div>
 
-    <nav class="navbar">
-      <a href="#">Home</a>
-      <a href="#products">Products</a>
-      <a href="#">Categories</a>
-      <a href="#">Contact</a>
-    </nav>
+<nav class="navbar">
+<a href="#">Home</a>
+<a href="#products">Products</a>
+</nav>
 
-    <div class="header-icons">
+<div class="header-icons">
 
-      <div class="search-box">
-        <input type="text" placeholder="Search products..." />
-        <button>
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
+<div class="search-box">
 
-      <div class="cart-icon">
-        <i class="fas fa-shopping-cart"></i>
-        <span>0</span>
-      </div>
+<input
+type="text"
+placeholder="Search products"
+>
 
-    </div>
+<button>
+<i class="fas fa-search"></i>
+</button>
 
-  </header>
+</div>
 
+<div class="auth-buttons">
 
-  <!-- HERO SECTION -->
-  <section class="hero">
+<button id="openLogin">
+Login
+</button>
 
-    <div class="hero-text">
-      <h1>Buy & Sell Products Online</h1>
+<button id="openSignup">
+Signup
+</button>
 
-      <p>
-        Discover amazing products from trusted sellers.
-      </p>
+</div>
 
-      <button>Shop Now</button>
-    </div>
+<div class="cart-icon">
 
-    <div class="hero-image">
-      <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000" alt="hero image">
-    </div>
+<i class="fas fa-shopping-cart"></i>
 
-  </section>
+<span>0</span>
 
+</div>
 
-  <!-- CATEGORIES -->
-  <section class="categories">
+</div>
 
-    <h2>Popular Categories</h2>
+</header>
 
-    <div class="category-grid">
+<section class="hero">
 
-      <div class="category-card">
-        <i class="fas fa-mobile-alt"></i>
-        <p>Phones</p>
-      </div>
+<div class="hero-text">
 
-      <div class="category-card">
-        <i class="fas fa-laptop"></i>
-        <p>Electronics</p>
-      </div>
+<h1>
+Buy & Sell Online
+</h1>
 
-      <div class="category-card">
-        <i class="fas fa-tshirt"></i>
-        <p>Fashion</p>
-      </div>
+<p>
+Discover amazing products from trusted sellers.
+</p>
 
-      <div class="category-card">
-        <i class="fas fa-shoe-prints"></i>
-        <p>Shoes</p>
-      </div>
+<button>
+Shop Now
+</button>
 
-    </div>
+</div>
 
-  </section>
+<div class="hero-image">
 
+<img
+src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000"
+>
 
-  <!-- PRODUCTS -->
-  <main class="products" id="products">
+</div>
 
-    <h2>Featured Products</h2>
+</section>
 
-    <div class="product-grid">
+<section class="add-product">
 
-      <div class="product-card">
+<h2>Add Product</h2>
 
-        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000" alt="Product">
+<form id="productForm">
 
-        <h3>Running Shoes</h3>
+<input
+type="text"
+id="name"
+placeholder="Product Name"
+required
+>
 
-        <p class="price">Ksh 4,500</p>
+<input
+type="number"
+id="price"
+placeholder="Product Price"
+required
+>
 
-        <button>Add To Cart</button>
+<input
+type="text"
+id="image"
+placeholder="Image URL"
+required
+>
 
-      </div>
+<button type="submit">
+Upload Product
+</button>
 
+</form>
 
-      <div class="product-card">
+</section>
 
-        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1000" alt="Product">
+<main class="products" id="products">
 
-        <h3>Smart Phone</h3>
+<h2>Featured Products</h2>
 
-        <p class="price">Ksh 25,000</p>
+<div class="product-grid"></div>
 
-        <button>Add To Cart</button>
+</main>
 
-      </div>
+<div class="auth-modal" id="authModal">
 
+<div class="auth-box">
 
-      <div class="product-card">
+<span class="close-modal" id="closeModal">
+&times;
+</span>
 
-        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1000" alt="Product">
+<form id="loginForm" class="auth-form">
 
-        <h3>Fashion T-shirt</h3>
+<h2>Login</h2>
 
-        <p class="price">Ksh 1,200</p>
+<input
+type="email"
+id="loginEmail"
+placeholder="Email"
+required
+>
 
-        <button>Add To Cart</button>
+<input
+type="password"
+id="loginPassword"
+placeholder="Password"
+required
+>
 
-      </div>
+<button type="submit">
+Login
+</button>
 
-    </div>
+</form>
 
-  </main>
+<form
+id="signupForm"
+class="auth-form hidden"
+>
 
+<h2>Create Account</h2>
 
-  <!-- FOOTER -->
-  <footer class="footer">
+<input
+type="text"
+id="signupUsername"
+placeholder="Username"
+required
+>
 
-    <h3>Marketplace App</h3>
+<input
+type="email"
+id="signupEmail"
+placeholder="Email"
+required
+>
 
-    <p>
-      Your trusted online marketplace.
-    </p>
+<input
+type="password"
+id="signupPassword"
+placeholder="Password"
+required
+>
 
-  </footer>
+<button type="submit">
+Signup
+</button>
 
+</form>
 
-  <script src="app.js"></script>
+</div>
+
+</div>
+
+<script src="app.js"></script>
 
 </body>
 </html>
-```
